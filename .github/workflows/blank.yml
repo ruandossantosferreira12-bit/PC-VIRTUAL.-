@@ -1,0 +1,50 @@
+
+name: PC Virtual - Ambiente Grafico
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  desktop:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+
+    steps:
+      - name: Atualizar sistema
+        run: |
+          sudo apt-get update
+          sudo apt-get upgrade -y
+
+      - name: Instalar ambiente grafico
+        run: |
+          sudo apt-get install -y \
+            xfce4 \
+            xfce4-terminal \
+            dbus-x11 \
+            xorg \
+            mesa-utils \
+            curl \
+            wget \
+            unzip
+
+      - name: Verificar recursos
+        run: |
+          echo "=== SISTEMA ==="
+          uname -a
+          echo "=== PROCESSADOR ==="
+          lscpu
+          echo "=== MEMORIA ==="
+          free -h
+          echo "=== GRAFICOS ==="
+          sudo apt-get install -y pciutils
+          lspci | grep -Ei 'vga|3d|display' || true
+
+      - name: Resultado
+        run: |
+          echo "Ambiente grafico instalado."
+          echo "Esta maquina e temporaria."
+          echo "Nao e um Windows gamer."
+          echo "Nao ha acesso remoto configurado."
